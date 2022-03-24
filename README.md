@@ -7,9 +7,9 @@ Xcode build times visualization per target
 
 ```sh
 [sudo] gem install xcode-build-times
-
-## Installation Developer version
 ```
+
+## Installing the Developer Version
 
 ```sh
 $ git clone https://github.com/EvandroViva/xcode-build-times-rendering
