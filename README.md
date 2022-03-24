@@ -1,12 +1,19 @@
 # xcode-build-times-rendering
 
 Xcode build times visualization per target
-![image](https://user-images.githubusercontent.com/119268/45782819-abd2aa00-bc6c-11e8-9ee0-114c020f238a.png)
+![image](https://user-images.githubusercontent.com/10828067/159999170-7660e568-3310-415e-a545-230dc03c808f.png)
 
 ## Installation
 
 ```sh
 [sudo] gem install xcode-build-times
+
+## Installation Developer version
+
+```sh
+$ git clone https://github.com/EvandroViva/xcode-build-times-rendering
+$ cd xcode-build-times-rendering
+$ make install
 ```
 
 ## Injection in your project
