@@ -9,6 +9,7 @@ class XcodeBuildTimer
   def initialize(options)
     @inject_path = options[:inject_path] || ''
     @events_file_path = options[:events_file_path]
+    @events_file_file = File.join(Dir.home, options[:events_file_path])
   end
 
   def add_timings(xcodeproj_path)
@@ -25,7 +26,7 @@ class XcodeBuildTimer
         timing_start = target.new_shell_script_build_phase('Timing START')
         timing_start.shell_script = <<-eos
       DATE=`date "+%Y-%m-%dT%H:%M:%S.%s"`
-      echo "{\\"date\\":\\"$DATE\\", \\"taskName\\":\\"$TARGETNAME\\", \\"event\\":\\"start\\"}," >> "#{@events_file_path}"
+      echo "{\\"date\\":\\"$DATE\\", \\"taskName\\":\\"$TARGETNAME\\", \\"event\\":\\"start\\"}," >> "${HOME}/#{@events_file_path}"
         eos
 
         index = target.build_phases.index {|phase| (defined? phase.name) && phase.name == 'Timing START'
@@ -40,7 +41,7 @@ class XcodeBuildTimer
         timing_end = target.new_shell_script_build_phase('Timing END')
         timing_end.shell_script = <<-eos
       DATE=`date "+%Y-%m-%dT%H:%M:%S.%s"`
-      echo "{\\"date\\":\\"$DATE\\", \\"taskName\\":\\"$TARGETNAME\\", \\"event\\":\\"end\\"}," >> "#{@events_file_path}"
+      echo "{\\"date\\":\\"$DATE\\", \\"taskName\\":\\"$TARGETNAME\\", \\"event\\":\\"end\\"}," >> "${HOME}/#{@events_file_path}"
         eos
       end
 
@@ -95,7 +96,7 @@ class XcodeBuildTimer
 
   def generate_events_js
     begin
-      raw_events = File.read(File.expand_path(@events_file_path))
+      raw_events = File.read(@events_file_file)
     rescue
       puts '[???]'.yellow + " There were some problems in opening #{@events_file_path} (It doesn't seem that build was created)"
       return
